@@ -35,6 +35,9 @@ function GuiLibrary:CreateFrame(title)
     DividerLine.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     DividerLine.Parent = Frame
 
+    -- Make the frame draggable
+    self:MakeDraggable(Frame)
+
     return Frame
 end
 
@@ -48,7 +51,7 @@ function GuiLibrary:CreateButton(parent, buttonName, position, callback)
     self:CreateRoundedElement(Button)
     Button.Parent = parent
 
-    Button.MouseButton1Down:Connect(callback)
+    Button.MouseButton1Click:Connect(callback) -- Changed to MouseButton1Click for better behavior
 
     return Button
 end
