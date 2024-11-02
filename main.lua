@@ -1,30 +1,19 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/2kr5x/radnomsourcecodeforsomeotherscriptthatimaedandthisismyalt/refs/heads/main/source.lua"))()
+local UIManager = loadstring(game:HttpGet("https://pastebin.com/raw/WuPSSxS0"))()
 
-local SimpleGUI = require(script.SimpleGUIModule)
+local ui = UIManager.new("Tapez")
 
--- Create Gui 
-local Frame = SimpleGUI:CreateUI()
-
-local scriptsEnabled = true
-
--- Create a Toggle Button
-SimpleGUI:AddToggle(Frame, "ToggleScripts", UDim2.new(0.1, 0, 0.15, 0), "Toggle Scripts", scriptsEnabled, function(enabled)
-    scriptsEnabled = enabled
-    print("Scripts Enabled: " .. tostring(scriptsEnabled))
+-- Create UI elements using the library
+ui:createToggleButton("Toggle Scripts", UDim2.new(0.1, 0, 0.15, 0), function(enabled)
+    print("Scripts Enabled: " .. tostring(enabled))
 end)
 
--- Create a Sample Button
-SimpleGUI:AddButton(Frame, "SampleButton", UDim2.new(0.1, 0, 0.25, 0), "Sample Action", function()
-    if scriptsEnabled then
-        print("Sample action executed")
-    else
-        print("Scripts are disabled.")
-    end
+ui:createActionButton("Sample Action", UDim2.new(0.1, 0, 0.25, 0), function()
+    print("Sample action executed")
 end)
 
--- Create a Speed Input with Button
-SimpleGUI:AddTextBoxWithButton(Frame, "SetSpeedButton", "SpeedInput", UDim2.new(0.1, 0, 0.35, 0), "Set Speed", "Enter Speed", function(speedStr)
-    local speedValue = tonumber(speedStr)
+local speedInput = ui:createTextBox("Speed", UDim2.new(0.80, 0, 0.35, 0))
+ui:createActionButton("Set Speed", UDim2.new(0.1, 0, 0.35, 0), function()
+    local speedValue = tonumber(speedInput.Text)
     if speedValue and speedValue > 0 then
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speedValue
         print("Walk speed set to: " .. speedValue)
@@ -33,4 +22,18 @@ SimpleGUI:AddTextBoxWithButton(Frame, "SetSpeedButton", "SpeedInput", UDim2.new(
     end
 end)
 
--- Additional UI elements can be added using similar methods
+local keybindInput = ui:createTextBox("Keybind", UDim2.new(0.8, 0, 0.45, 0))
+local keybindButton = ui:createKeybindButton("Set Keybind", UDim2.new(0.1, 0, 0.45, 0))
+
+keybindButton.MouseButton1Down:Connect(function()
+    local key = keybindInput.Text:sub(1, 1)
+    if key and #key > 0 then
+        local upKeyCode = key:upper()
+        local keybind = Enum.KeyCode[upKeyCode]
+        if keybind then
+            print("Keybind set to: " .. upKeyCode)
+        else
+            print("Please enter a valid character.")
+        end
+    end
+end)
