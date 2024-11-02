@@ -1,4 +1,4 @@
-local GuiLibrary = require(script.Parent.GuiLibrary) -- Adjust the path accordingly
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/2kr5x/radnomsourcecodeforsomeotherscriptthatimaedandthisismyalt/refs/heads/main/source.lua"))()
 
 -- Create the main frame
 local Frame = GuiLibrary:CreateFrame("My Awesome GUI")
@@ -38,3 +38,4 @@ end)
 
 -- Make the frame draggable
 GuiLibrary:MakeDraggable(Frame)
+
