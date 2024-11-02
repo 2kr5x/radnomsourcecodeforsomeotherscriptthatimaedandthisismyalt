@@ -2,6 +2,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/2kr5x
 
 local SimpleGUI = require(script.SimpleGUIModule)
 
+-- Create Gui 
 local Frame = SimpleGUI:CreateUI()
 
 local scriptsEnabled = true
