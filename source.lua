@@ -1,4 +1,3 @@
--- UIManager.lua
 local UIManager = {}
 UIManager.__index = UIManager
 
@@ -24,6 +23,7 @@ function UIManager.new(title)
     self.Frame.BackgroundColor3 = Color3.fromHex("090114")
     self.Frame.Size = UDim2.new(0, 280, 0, 580)
     self.Frame.Position = UDim2.new(0, 50, 0, 50)
+    self.Frame.Visible = false  -- Initially hidden
 
     -- Create Title Label
     self.TitleLabel = Instance.new("TextLabel", self.Frame)
@@ -95,6 +95,10 @@ function UIManager:createKeybindButton(name, position)
     createRoundedElement(keybindButton)
 
     return keybindButton
+end
+
+function UIManager:toggleVisibility()
+    self.Frame.Visible = not self.Frame.Visible
 end
 
 return UIManager
