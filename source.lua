@@ -1,3 +1,4 @@
+-- UIManager.lua
 local UIManager = {}
 UIManager.__index = UIManager
 
@@ -23,7 +24,7 @@ function UIManager.new(title)
     self.Frame.BackgroundColor3 = Color3.fromHex("090114")
     self.Frame.Size = UDim2.new(0, 280, 0, 580)
     self.Frame.Position = UDim2.new(0, 50, 0, 50)
-    self.Frame.Visible = false  -- Initially hidden
+    self.Frame.Visible = true -- Keep the GUI visible initially
 
     -- Create Title Label
     self.TitleLabel = Instance.new("TextLabel", self.Frame)
@@ -42,8 +43,22 @@ function UIManager.new(title)
     self.DividerLine.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 
     self.scriptsEnabled = true
+    self.keybind = Enum.KeyCode.G -- Default keybind to toggle the GUI
+    self:setupKeybindToggle() -- Set up keybind functionality
 
     return self
+end
+
+function UIManager:setupKeybindToggle()
+    -- Function to toggle GUI visibility based on keybind
+    local player = game.Players.LocalPlayer
+    local userInputService = game:GetService("UserInputService")
+    
+    userInputService.InputBegan:Connect(function(input)
+        if input.KeyCode == self.keybind then
+            self.Frame.Visible = not self.Frame.Visible
+        end
+    end)
 end
 
 function UIManager:createToggleButton(name, position, callback)
@@ -79,7 +94,7 @@ end
 function UIManager:createTextBox(name, position)
     local textBox = Instance.new("TextBox", self.Frame)
     textBox.Position = position
-    textBox.Size = UDim2.new(0, 50, 0.034, 20)
+    textBox.Size = UDim2.new(0, 50, 0, 40)
     textBox.Text = ""
     createRoundedElement(textBox)
     textBox.Name = name
@@ -97,8 +112,15 @@ function UIManager:createKeybindButton(name, position)
     return keybindButton
 end
 
-function UIManager:toggleVisibility()
-    self.Frame.Visible = not self.Frame.Visible
+function UIManager:setKeybind(key)
+    local upKeyCode = key:upper()
+    local keybind = Enum.KeyCode[upKeyCode]
+    if keybind then
+        self.keybind = keybind
+        print("Keybind set to: " .. upKeyCode)
+    else
+        print("Please enter a valid character.")
+    end
 end
 
 return UIManager
